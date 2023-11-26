@@ -1,8 +1,9 @@
 import spotipy
 from flask import Flask, redirect, request, session
+import os
 
 app = Flask(__name__)
-app.secret_key = 'heyjakeimadeonephonecall'
+app.secret_key = os.urandom(24)
 
 SPOTIPY_CLIENT_ID = '711140f3324e4e2bb2dcb71c98c897a1'
 SPOTIPY_CLIENT_SECRET = '05189b38b7804c6999503b751983987c'
