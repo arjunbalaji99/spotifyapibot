@@ -7,7 +7,8 @@ app.secret_key = os.urandom(24)
 
 SPOTIPY_CLIENT_ID = '711140f3324e4e2bb2dcb71c98c897a1'
 SPOTIPY_CLIENT_SECRET = '05189b38b7804c6999503b751983987c'
-SPOTIPY_REDIRECT_URI = 'https://spotify-stats-compiler.onrender.com/callback'
+# SPOTIPY_REDIRECT_URI = 'https://spotify-stats-compiler.onrender.com/callback'
+SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:5000/callback'
 SPOTIPY_SCOPE = 'user-top-read'
 
 sp_oauth = spotipy.oauth2.SpotifyOAuth(
@@ -16,6 +17,8 @@ sp_oauth = spotipy.oauth2.SpotifyOAuth(
     SPOTIPY_REDIRECT_URI,
     scope=SPOTIPY_SCOPE
 )
+
+user_sessions = {}
 
 @app.route('/')
 def home():
@@ -30,17 +33,28 @@ def login():
 def callback():
     token_info = sp_oauth.get_access_token(request.args['code'])
     
-    session['access_token'] = token_info['access_token']
-    session['refresh_token'] = token_info['refresh_token']
+    # Use a session ID instead of relying on Flask's default session
+    session_id = os.urandom(24).hex()
+    user_sessions[session_id] = {
+        'access_token': token_info['access_token'],
+        'refresh_token': token_info['refresh_token'],
+    }
+    
+    # Set the session ID as a cookie
+    response = redirect('/user_data')
+    response.set_cookie('session_id', session_id)
     
     return redirect('/user_data')
 
 @app.route('/user_data')
 def user_data():
-    access_token = session.get('access_token')
-
-    if access_token is None:
+    session_id = request.cookies.get('session_id')
+    
+    # Check if the session ID exists in the user_sessions dictionary
+    if session_id not in user_sessions:
         return redirect('/login')
+
+    access_token = user_sessions[session_id]['access_token']
 
     sp = spotipy.Spotify(auth=access_token)
 
