@@ -7,8 +7,7 @@ app.secret_key = os.urandom(24)
 
 SPOTIPY_CLIENT_ID = '711140f3324e4e2bb2dcb71c98c897a1'
 SPOTIPY_CLIENT_SECRET = '05189b38b7804c6999503b751983987c'
-# SPOTIPY_REDIRECT_URI = 'https://spotify-stats-compiler.onrender.com/callback'
-SPOTIPY_REDIRECT_URI = 'http://127.0.0.1:5000/callback'
+SPOTIPY_REDIRECT_URI = 'https://spotify-stats-compiler.onrender.com/callback'
 SPOTIPY_SCOPE = 'user-top-read'
 
 sp_oauth = spotipy.oauth2.SpotifyOAuth(
