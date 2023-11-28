@@ -43,7 +43,7 @@ def callback():
     response = redirect('/user_data')
     response.set_cookie('session_id', session_id)
     
-    return redirect('/user_data')
+    return response
 
 @app.route('/user_data')
 def user_data():
