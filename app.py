@@ -57,7 +57,8 @@
 
 
 import os
-from flask import Flask, session, request, redirect, Session
+from flask import Flask, session, request, redirect
+from flask_session import Session
 import spotipy
 
 app = Flask(__name__)
