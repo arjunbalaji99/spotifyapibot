@@ -4,21 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Stats Compiler</title>
+    <style>
+        /* Add some basic styling for the tabs */
+        .tab {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <a href="/sign_out">Sign Out</a>
-    <h2>Top Combined Artists</h2>
-    <ul>
-        {% for key, value in totaltopartists.items() %}
-            <li>{{ loop.index }}. {{ key }}: {{ value }}</li>
-        {% endfor %}
-    </ul>
+    <!-- Tab buttons -->
+    <button onclick="openTab('tab1')">Total Combined Artists</button>
+    <button onclick="openTab('tab2')">Total Combined Songs</button>
 
-    <h2>Top Combined Songs</h2>
-    <ul>
-        {% for key, value in totaltopsongs.items() %}
-            <li>{{ loop.index }}. {{ key }}: {{ value }}</li>
-        {% endfor %}
-    </ul>
+    <!-- Tab content -->
+    <div id="tab1" class="tab">
+        <h2>Top Combined Artists</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Placement</th>
+                    <th>Image</th>
+                    <th>Artist Name</th>
+                    <th>Total Point Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for artist_info in totaltopartists %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><img src="{{ artist_info['image'] }}" alt="Artist Image" width="100" height="100"></td>
+                        <td>{{ artist_info['name'] }}</td>
+                        <td>{{ artist_info['count'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="tab2" class="tab">
+        <h2>Top Combined Songs</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Placement</th>
+                    <th>Album Cover</th>
+                    <th>Song Name</th>
+                    <th>Artist Name</th>
+                    <th>Total Point Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for track_info in totaltopsongs %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><img src="{{ track_info['album_cover'] }}" alt="Album Cover" width="100" height="100"></td>
+                        <td>{{ track_info['name'] }}</td>
+                        <td>{{ track_info['artist'] }}</td>
+                        <td>{{ track_info['count'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- JavaScript to handle tab switching -->
+    <script>
+        function openTab(tabName) {
+            var i, tabs;
+            tabs = document.getElementsByClassName("tab");
+            for (i = 0; i < tabs.length; i++) {
+                tabs[i].style.display = "none";
+            }
+            document.getElementById(tabName).style.display = "block";
+        }
+    </script>
 </body>
 </html>
