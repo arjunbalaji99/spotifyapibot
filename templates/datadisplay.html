@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Stats Compiler</title>
+</head>
+<body>
+    <a href="/sign_out">Sign Out</a>
+    <h2>Top Combined Artists</h2>
+    <ul>
+        {% for key, value in totaltopartists.items() %}
+            <li>{{ loop.index }}. {{ key }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Top Combined Songs</h2>
+    <ul>
+        {% for key, value in totaltopsongs.items() %}
+            <li>{{ loop.index }}. {{ key }}: {{ value }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
