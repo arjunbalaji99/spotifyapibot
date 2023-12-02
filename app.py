@@ -71,7 +71,7 @@ def tallytotals():
             total_top_artists[artist['name']] = counter
         counter = counter - 1
     
-    top_songs = spotify.current_user_top_artists(limit=50, offset=0, time_range="medium_term")
+    top_songs = spotify.current_user_top_tracks(limit=50, offset=0, time_range="medium_term")
     counter = 50
     for songs in top_songs['items']:
         if songs['name'] in total_top_songs:
@@ -81,9 +81,9 @@ def tallytotals():
         counter = counter - 1
 
 
-# if __name__ == '__main__':
-#     app.run(threaded=True, port=int(os.environ.get("PORT",
-#                                                    os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
-
 if __name__ == '__main__':
-    app.run(threaded=True)
+    app.run(threaded=True, port=int(os.environ.get("PORT",
+                                                   os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
+
+# if __name__ == '__main__':
+#     app.run(threaded=True)
