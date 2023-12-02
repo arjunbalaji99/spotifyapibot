@@ -46,12 +46,18 @@ def create_new_group():
 
     return render_template('createnewgroup.html')
 
-@app.route('/datadisplay', methods=['GET', 'POST'])
-def datadisplay():
+@app.route('/datagatheringpage', methods=['GET', 'POST'])
+def datagatheringpage():
+    global tracks_info
+    global artists_info
     settermlength(request.form.get('term_length', None))
     tallytotals(cur_term_length)
     tracks_info = gettrackinfo()
     artists_info = getartistinfo()
+    return redirect('/datadisplay')
+
+@app.route('/datadisplay',)
+def datadisplay():
     return render_template('datadisplay.html', totaltopartists = artists_info, totaltopsongs = tracks_info)
 
 def settermlength(termlength):
@@ -127,9 +133,9 @@ def gettrackinfo():
     return tracks_info
 
 
-# if __name__ == '__main__':
-#     app.run(threaded=True, port=int(os.environ.get("PORT",
-#                                                    os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
-
 if __name__ == '__main__':
-    app.run(threaded=True)
+    app.run(threaded=True, port=int(os.environ.get("PORT",
+                                                   os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
+
+# if __name__ == '__main__':
+#     app.run(threaded=True)
