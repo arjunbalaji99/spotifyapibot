@@ -13,6 +13,7 @@ Session(app)
 
 total_top_artists = {}
 total_top_songs = {}
+users = []
 cur_term_length = None
 
 @app.route('/')
@@ -31,6 +32,8 @@ def index():
         return f'<h2><a href="{auth_url}">Sign in</a></h2>'
 
     spotify = spotipy.Spotify(auth_manager=auth_manager)
+    global users
+    users.append(spotify.me()['display_name'])
     return render_template('index.html', name = spotify.me()['display_name'])
 
 
@@ -43,6 +46,7 @@ def sign_out():
 def create_new_group():
     total_top_artists.clear()
     total_top_songs.clear()
+    users.clear()
 
     return render_template('createnewgroup.html')
 
@@ -50,8 +54,16 @@ def create_new_group():
 def datagatheringpage():
     global tracks_info
     global artists_info
-    settermlength(request.form.get('term_length', None))
-    tallytotals(cur_term_length)
+    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
+    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
+    if not auth_manager.validate_token(cache_handler.get_cached_token()):
+        return redirect('/')
+
+    spotify = spotipy.Spotify(auth_manager=auth_manager)
+    if spotify.me()['display_name'] not in users:
+        settermlength(request.form.get('term_length', None))
+        tallytotals(cur_term_length)
+
     tracks_info = gettrackinfo()
     artists_info = getartistinfo()
     return redirect('/datadisplay')
@@ -133,9 +145,9 @@ def gettrackinfo():
     return tracks_info
 
 
-if __name__ == '__main__':
-    app.run(threaded=True, port=int(os.environ.get("PORT",
-                                                   os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
-
 # if __name__ == '__main__':
-#     app.run(threaded=True)
+#     app.run(threaded=True, port=int(os.environ.get("PORT",
+#                                                    os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
+
+if __name__ == '__main__':
+    app.run(threaded=True)
