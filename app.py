@@ -32,8 +32,7 @@ def index():
         return f'<h2><a href="{auth_url}">Sign in</a></h2>'
 
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    global users
-    users.append(spotify.me()['display_name'])
+    
     return render_template('index.html', name = spotify.me()['display_name'])
 
 
@@ -63,6 +62,8 @@ def datagatheringpage():
     if spotify.me()['display_name'] not in users:
         settermlength(request.form.get('term_length', None))
         tallytotals(cur_term_length)
+        global users
+        users.append(spotify.me()['display_name'])
 
     tracks_info = gettrackinfo()
     artists_info = getartistinfo()
