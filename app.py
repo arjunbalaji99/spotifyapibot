@@ -53,6 +53,7 @@ def create_new_group():
 def datagatheringpage():
     global tracks_info
     global artists_info
+    global users
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
     auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
@@ -62,7 +63,6 @@ def datagatheringpage():
     if spotify.me()['display_name'] not in users:
         settermlength(request.form.get('term_length', None))
         tallytotals(cur_term_length)
-        global users
         users.append(spotify.me()['display_name'])
 
     tracks_info = gettrackinfo()
