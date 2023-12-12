@@ -4,11 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Stats Compiler</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/index.css') }}">
 </head>
 <body>
-    <h1>Hi {{name}} </h1>
-    <h2><a href="/create_new_group">Create New Group</a></h2>
-    <h2><a href="/datagatheringpage">Join Existing Group</a></h2>
-    <a href="/sign_out">Sign Out</a>
+    <div class="index-container">
+        <span class="index-intro">Hi {{name}} </span>
+        <span class="index-desc-overview">
+            Spotify Stats Compiler is a tool that allows you to combine your Spotify listening stats with your friends and see the results!
+        </span>
+        <span class="index-desc-instructions">
+            If your friends have already created a group, join their existing group! If you are the first friend to get on our site, make a new group!
+        </span>
+        <button class="index-newgroup" onclick="window.location.href='/create_new_group'">Create New Group</button>
+        <button class="index-existinggroup" onclick="window.location.href='/'">Join Existing Group</a></button>
+        <button class="index-signout" onclick="window.location.href='/sign_out'">Sign Out</button>
+    </div>
 </body>
 </html>

@@ -1,0 +1,50 @@
+/* createnewgroup.css */
+
+body {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f4f4f4; /* Gray background color */
+}
+
+.createnewgroup-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff; /* White background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.createnewgroup-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333; /* Dark text color */
+}
+
+.createnewgroup-form {
+    margin-top: 20px;
+}
+
+.createnewgroup-form-label {
+    font-size: 18px;
+    color: #666; /* Medium-dark text color */
+    margin-right: 10px;
+}
+
+.createnewgroup-form-select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc; /* Light border color */
+    margin-right: 10px;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50; /* Blue color for the submit button */
+    color: #fff; /* White text color */
+}

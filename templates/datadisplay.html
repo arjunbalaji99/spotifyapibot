@@ -4,43 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spotify Stats Compiler</title>
-    <style>
-        /* Add some basic styling for the tabs */
-        .tab {
-            display: none;
-        }
-
-        .active {
-            display: block;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/datadisplay.css') }}">
 </head>
 <body>
-    <a href="/">Home</a>
-    <a href="/sign_out">Sign Out</a>
-    <!-- Tab buttons -->
-    <button onclick="openTab('tab1')">Total Combined Artists</button>
-    <button onclick="openTab('tab2')">Total Combined Songs</button>
+    <div class="all-buttons">
+        <div class="userbuttons">
+            <button class="home-button" onclick="window.location.href='/'">Home</button>
+            <button class="signout-button" onclick="window.location.href='/sign_out'">Sign Out</button>    
+        </div>
+        <div class="tabbutton-container">
+            <button class="tabbutton" onclick="openTab('tab1')">Total Combined Artists</button>
+            <button class="tabbutton" onclick="openTab('tab2')">Total Combined Songs</button>      
+        </div>
+    </div>
 
     <!-- Tab content -->
     <div id="tab1" class="tab">
-        <h2>Top Combined Artists</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Placement</th>
-                    <th>Image</th>
-                    <th>Artist Name</th>
-                    <th>Total Point Count</th>
-                </tr>
-            </thead>
+        <span class="title">Top Combined Artists ({{term}})</span>
+        <table class="info-table">
             <tbody>
                 {% for artist_info in totaltopartists %}
                     <tr>
-                        <td>{{ loop.index }}</td>
-                        <td><img src="{{ artist_info['image'] }}" alt="Artist Image" width="100" height="100"></td>
-                        <td>{{ artist_info['name'] }}</td>
-                        <td>{{ artist_info['count'] }}</td>
+                        <td class="element">{{ loop.index }}</td>
+                        <td class="element"><img src="{{ artist_info['image'] }}" alt="Artist Image" width="100" height="100"></td>
+                        <td class="element">{{ artist_info['name'] }}</td>
+                        <td class="element">{{ artist_info['count'] }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -48,25 +36,16 @@
     </div>
 
     <div id="tab2" class="tab">
-        <h2>Top Combined Songs</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Placement</th>
-                    <th>Album Cover</th>
-                    <th>Song Name</th>
-                    <th>Artist Name</th>
-                    <th>Total Point Count</th>
-                </tr>
-            </thead>
+        <span class="title">Top Combined Songs ({{term}})</span>
+        <table class="info-table">
             <tbody>
                 {% for track_info in totaltopsongs %}
                     <tr>
-                        <td>{{ loop.index }}</td>
-                        <td><img src="{{ track_info['album_cover'] }}" alt="Album Cover" width="100" height="100"></td>
-                        <td>{{ track_info['name'] }}</td>
-                        <td>{{ track_info['artist'] }}</td>
-                        <td>{{ track_info['count'] }}</td>
+                        <td class="element">{{ loop.index }}</td>
+                        <td class="element"><img src="{{ track_info['album_cover'] }}" alt="Album Cover" width="100" height="100"></td>
+                        <td class="element">{{ track_info['name'] }}</td>
+                        <td class="element">{{ track_info['artist'] }}</td>
+                        <td class="element">{{ track_info['count'] }}</td>
                     </tr>
                 {% endfor %}
             </tbody>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Stats Compiler</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/signin.css') }}">
+</head>
+<body>
+    <div class="signin-container">
+        <span class="signin-title">Spotify Stats Compiler</span>
+        <span class="signin-description">Join your friends and see your combined top artists and tracks!</span>
+        <button class="signin-button" onclick="window.location.href='{{auth_url}}'">Login with Spotify</button>
+    </div>
+</body>
+</html>

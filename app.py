@@ -29,7 +29,7 @@ def index():
 
     if not auth_manager.validate_token(cache_handler.get_cached_token()):
         auth_url = auth_manager.get_authorize_url()
-        return f'<h2><a href="{auth_url}">Sign in</a></h2>'
+        return render_template('signin.html', auth_url = auth_url)
 
     spotify = spotipy.Spotify(auth_manager=auth_manager)
     
@@ -71,7 +71,7 @@ def datagatheringpage():
 
 @app.route('/datadisplay',)
 def datadisplay():
-    return render_template('datadisplay.html', totaltopartists = artists_info, totaltopsongs = tracks_info)
+    return render_template('datadisplay.html', totaltopartists = artists_info, totaltopsongs = tracks_info, term = converttermlength(cur_term_length))
 
 def settermlength(termlength):
     global cur_term_length
@@ -145,10 +145,15 @@ def gettrackinfo():
     
     return tracks_info
 
+def converttermlength(cur_term_length):
+    if cur_term_length == "short-term": return "Last 4 Weeks"
+    elif cur_term_length == "medium-term": return "Last 6 Months"
+    else: return "All Time"
 
-# if __name__ == '__main__':
-#     app.run(threaded=True, port=int(os.environ.get("PORT",
-#                                                    os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
 
 if __name__ == '__main__':
-    app.run(threaded=True)
+    app.run(threaded=True, port=int(os.environ.get("PORT",
+                                                   os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
+
+# if __name__ == '__main__':
+#     app.run(threaded=True)
