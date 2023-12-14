@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Stats Compiler</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/algorithiminformation.css') }}">
+</head>
+<body>
+    <div class="alginfo-container">
+        <span class="algoinfo-title">How The Compiler is Calculated</span>
+        <span class="algoinfo-desc">
+            <ul>
+                <li>The compiler takes in you and all your friends Spotify listening data (your top 50 artists and songs).</li>
+                <li>Then, it creates a points system, with your most listened to song getting 50 points, your 2nd most listened to song getting 49 points, and so on.</li>
+                <li>It then combines everyone in the groups songs and their point totals.</li>
+                <li>Then, for each user that has the song/artist in their top 50, it will multiply that song/artists point total by the number of users squared.</li>
+                <li>Finally, it displays the top 50 combined songs and artists for your enjoyment!</li>
+            </ul>
+        </span>
+        <button class="algoinfo-button" onclick="window.location.href='/datadisplay'">Continue</button>
+    </div>
+</body>
+</html>

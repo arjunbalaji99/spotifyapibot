@@ -65,12 +65,16 @@ def datagatheringpage():
         tallytotals(cur_term_length)
         users.append(spotify.me()['display_name'])
 
+    return redirect('/algorithminformation')
+
+@app.route('/algorithminformation')
+def algorithminformation():
+    return render_template('algorithminformation.html')
+
+@app.route('/datadisplay')
+def datadisplay():    
     tracks_info = gettrackinfo()
     artists_info = getartistinfo()
-    return redirect('/datadisplay')
-
-@app.route('/datadisplay',)
-def datadisplay():
     return render_template('datadisplay.html', totaltopartists = artists_info, totaltopsongs = tracks_info, term = converttermlength(cur_term_length))
 
 def settermlength(termlength):
@@ -93,11 +97,13 @@ def tallytotals(termlength):
     for artist in top_artists['items']:
         artist_name = artist['name']
         artist_image = artist['images'][0]['url'] if artist['images'] else None
-
         if artist_name in total_top_artists:
-            total_top_artists[artist_name]['count'] += counter
+            total_top_artists[artist_name]['users'] += 1
+            count = total_top_artists[artist_name]['count']
+            users = total_top_artists[artist_name]['users']
+            total_top_artists[artist_name]['count'] = ((count / (users - 1)) + counter) * (users ** 2)
         else:
-            total_top_artists[artist_name] = {'count': counter, 'image': artist_image}
+            total_top_artists[artist_name] = {'count': counter, 'users': 1, 'image': artist_image}
         counter -= 1
     
     top_songs = spotify.current_user_top_tracks(limit=50, offset=0, time_range=termlength)
@@ -108,9 +114,12 @@ def tallytotals(termlength):
         album_cover = song['album']['images'][0]['url'] if song['album']['images'] else None
 
         if track_name in total_top_songs:
-            total_top_songs[track_name]['count'] += counter
+            total_top_songs[track_name]['users'] += 1
+            count = total_top_songs[track_name]['count']
+            users = total_top_songs[track_name]['users']
+            total_top_songs[track_name]['count'] = ((count / (users - 1)) + counter) * (users ** 2)
         else:
-            total_top_songs[track_name] = {'count': counter, 'artist': artist_name, 'album_cover': album_cover}
+            total_top_songs[track_name] = {'count': counter, 'artist': artist_name, 'users': 1, 'album_cover': album_cover}
         counter -= 1
 
 
