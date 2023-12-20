@@ -3,6 +3,7 @@
 import os
 from flask import Flask, session, request, redirect, render_template
 from flask_session import Session
+from flask_socketio import SocketIO, emit
 import spotipy
 
 app = Flask(__name__)
@@ -10,6 +11,7 @@ app.config['SECRET_KEY'] = os.urandom(64)
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_FILE_DIR'] = './.flask_session/'
 Session(app)
+socketio = SocketIO(app)
 
 total_top_artists = {}
 total_top_songs = {}
@@ -69,7 +71,9 @@ def datagatheringpage():
 
 @app.route('/algorithminformation')
 def algorithminformation():
+    socketio.emit('refresh_datadisplay')
     return render_template('algorithminformation.html')
+
 
 @app.route('/datadisplay')
 def datadisplay():    
@@ -107,9 +111,12 @@ def tallytotals(termlength):
         counter -= 1
     
     top_songs = spotify.current_user_top_tracks(limit=50, offset=0, time_range=termlength)
+    songset = []
     counter = 50
     for song in top_songs['items']:
         track_name = song['name']
+        if track_name in songset: continue
+        songset.append(track_name)
         artist_name = song['artists'][0]['name'] if song['artists'] else None
         album_cover = song['album']['images'][0]['url'] if song['album']['images'] else None
 
@@ -161,7 +168,7 @@ def converttermlength(cur_term_length):
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, port=int(os.environ.get("PORT",
+    socketio.run(app, port=int(os.environ.get("PORT",
                                                    os.environ.get("SPOTIPY_REDIRECT_URI", 8080).split(":")[-1])))
 
 # if __name__ == '__main__':
