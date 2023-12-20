@@ -3,7 +3,7 @@
 import os
 from flask import Flask, session, request, redirect, render_template
 from flask_session import Session
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 import spotipy
 
 app = Flask(__name__)
